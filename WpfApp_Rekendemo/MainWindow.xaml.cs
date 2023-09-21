@@ -23,6 +23,10 @@ namespace WpfApp_Rekendemo
     public partial class MainWindow : Window
     {
 
+        List<oSom> Sommen = new List<oSom>();
+        
+
+
         #region Constructor
         public MainWindow()
         {
@@ -42,11 +46,17 @@ namespace WpfApp_Rekendemo
             App.strGlobal = "Dit is een test";
 
 
-            oSom newsom = new oSom();
-           
+            // create more soms:
+            Random MyRandomizer = new Random();
+            for (int i=0;i<10;i++)
+            {
+                oSom newsom = new oSom(MyRandomizer);
+                Sommen.Add(newsom);
+            }
 
-            MessageBox.Show(newsom.getal1.ToString());
-            MessageBox.Show(newsom.getal2.ToString());
+            dCombo.DisplayMemberPath = "Operator";
+            dCombo.ItemsSource = Sommen;
+            
         }
 
 
@@ -84,8 +94,9 @@ namespace WpfApp_Rekendemo
 
         }
 
+
         #endregion
 
-    
+        
     }
 }
