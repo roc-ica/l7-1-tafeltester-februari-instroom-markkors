@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -20,19 +21,24 @@ namespace WpfApp_Rekendemo
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window,INotifyPropertyChanged
     {
+             
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        List<oSom> Sommen = new List<oSom>();
-        
-
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         #region Constructor
         public MainWindow()
         {
             InitializeComponent();
             InitEvents();
-            Debug.WriteLine(App.intGlobal);
+            // om bindings met het XAML form te realiseren moet de DataContext van het form
+            // worden ingesteld op "this"
+            DataContext = this;
         }
         #endregion
         
@@ -42,26 +48,40 @@ namespace WpfApp_Rekendemo
             btnDoSomethingElse.Click += BtnDoSomethingElse_Click;
             txtInputSomething.KeyDown += TxtInputSomething_KeyDown;
             txtInputSomething.TextChanged += TxtInputSomething_TextChanged;
-            
-            App.strGlobal = "Dit is een test";
+            lstSommen.SelectionChanged += LstSommen_SelectionChanged;
 
+            App.strGlobal = "Dit is een test";
 
             // create more soms:
             Random MyRandomizer = new Random();
+            List<oSom> coll = new List<oSom>();
             for (int i=0;i<10;i++)
             {
-                oSom newsom = new oSom(MyRandomizer);
-                Sommen.Add(newsom);
+                oSom newsom = new oSom(MyRandomizer,oSom.eDifficulty.hard);
+                coll.Add(newsom);
             }
 
-            dCombo.DisplayMemberPath = "Operator";
-            dCombo.ItemsSource = Sommen;
-            
+            Sommen = coll;
+            // trigger the propertychanged event (voor de bindings)
+            OnPropertyChanged("Sommen");
+
+        }
+
+        private void LstSommen_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+           // get selected item from listbox
+           // 
+           oSom selectedSom = (oSom)lstSommen.SelectedItem;
+           MessageBox.Show(selectedSom.SumAsTextWithResult);
+
         }
 
 
 
+        #region "properties"
+        public List<oSom> Sommen { get; set; }
 
+        #endregion
 
         #region EventHandlers
 

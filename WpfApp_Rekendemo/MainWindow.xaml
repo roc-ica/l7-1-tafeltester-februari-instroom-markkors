@@ -3,11 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp_Rekendemo"
+        xmlns:local="clr-namespace:WpfApp_Rekendemo.Classes"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="450"
         Width="800">
+    <Window.Resources>
+        <local:OperatorConverter x:Key="OperatorConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -35,9 +38,27 @@
                  Grid.Column="0"
                  Text="Doe iets" />
 
-        <ComboBox Grid.Row="1" x:Name="dCombo"
-                  Grid.Column="1" 
-                  />
+        <ListBox x:Name="lstSommen"
+                 ItemsSource="{Binding Sommen}"
+                 Grid.Column="1"
+                 Grid.ColumnSpan="2"
+                 Grid.RowSpan="2"
+                 Grid.Row="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock>
+                            <Run Text="{Binding getal1}" />
+                            <Run Text="{Binding Operator, Converter={StaticResource OperatorConverter}}" />
+                            <Run Text="{Binding getal2}" />
+                            <Run Text="=" />
+                            <Run Text="{Binding Result}" />
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
 
         <Grid Grid.Column="3"
               Grid.Row="3">
