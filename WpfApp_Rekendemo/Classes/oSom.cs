@@ -34,6 +34,10 @@ namespace WpfApp_Rekendemo.Classes
         /// <param name="r">Randomizer object</param>              
         public oSom(Random r,eDifficulty difficulty)
         {
+
+           
+
+
             // Constructor
             Difficulty = difficulty;
             rnd = r;
@@ -89,7 +93,7 @@ namespace WpfApp_Rekendemo.Classes
             {
                 n = rnd.Next(min, max);
             } while (getal1 % n != 0); // // Blijf genereren totdat het tweede getal een veelvoud is van het eerste
-
+            
             return n;
         }
 

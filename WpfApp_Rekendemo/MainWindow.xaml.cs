@@ -26,6 +26,8 @@ namespace WpfApp_Rekendemo
              
         public event PropertyChangedEventHandler PropertyChanged;
 
+       
+
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -38,7 +40,12 @@ namespace WpfApp_Rekendemo
             InitEvents();
             // om bindings met het XAML form te realiseren moet de DataContext van het form
             // worden ingesteld op "this"
-            DataContext = this;
+            this.DataContext = this;
+
+            double[] c;
+
+            Debug.WriteLine("Dit is een test");
+
         }
         #endregion
         
@@ -69,10 +76,15 @@ namespace WpfApp_Rekendemo
 
         private void LstSommen_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           // get selected item from listbox
-           // 
-           oSom selectedSom = (oSom)lstSommen.SelectedItem;
-           MessageBox.Show(selectedSom.SumAsTextWithResult);
+            // get selected item from listbox
+            //
+            //
+            ListBox lb = (ListBox)sender;
+            oSom s = (oSom)lb.SelectedItem;
+            
+            
+           //oSom selectedSom = (oSom)lstSommen.SelectedItem;
+           //MessageBox.Show(selectedSom.SumAsTextWithResult);
 
         }
 
@@ -103,6 +115,12 @@ namespace WpfApp_Rekendemo
             
             frmSecondWindow fsw1 = new frmSecondWindow();
             fsw1.Show();
+
+
+            MyNewWindow mnw1 = new MyNewWindow();
+            mnw1.Show();
+
+
 
            
         }
